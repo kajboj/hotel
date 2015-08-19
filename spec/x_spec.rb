@@ -1,4 +1,5 @@
 require './x'
+
 describe do
   specify do
     expect(naive(3)).to eq([0, 1, 1, 1, 0, 0, 0, 0, 0, 0])
@@ -51,5 +52,27 @@ describe do
   specify do
     expect(naive(763)).to eq(
       [146, 257, 257, 257, 256, 256, 250, 210, 146, 146])
+  end
+end
+
+describe 'up_to' do
+  specify do
+    expect(up_to(0)).to eq(naive(0))
+  end
+
+  specify do
+    expect(up_to(1)).to eq(naive(9))
+  end
+
+  specify do
+    expect(up_to(2)).to eq(naive(99))
+  end
+
+  specify do
+    expect(up_to(3)).to eq(naive(999))
+  end
+
+  specify do
+    expect(up_to(4)).to eq(naive(9999))
   end
 end

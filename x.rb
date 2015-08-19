@@ -27,3 +27,35 @@ def better(max)
 
   res
 end
+
+def add(v, u)
+  v.zip(u).map {|(x, y)| x+y}
+end
+
+def add_s(v, s)
+  v.map {|x| x+s}
+end
+
+def mul_s(v, s)
+  v.map {|x| x*s}
+end
+
+def up_to(power)
+  if power == 0
+    [0] * 10
+  elsif power == 1
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  else
+    u = up_to(power-1)
+    c = 10**(power-1)-1
+    add(
+      add(
+        u,
+        add(
+          mul_s(u, 9),
+          [c] + [1]*9
+        )),
+      [0] + [c]*9
+    )
+  end
+end
