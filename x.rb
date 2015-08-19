@@ -10,32 +10,19 @@ end
 
 def better(max)
   res = [0]*10
-  x = max
+  ds = [0]*10
+  p = 0
 
-  while x > 0 do
-    r = x % 10
-    d = x / 10
-    (1..r).to_enum.each do |digit|
+  max.to_s.split('').map(&:to_i).reverse.each do |d|
+    (1..d).to_enum.each do |digit|
       res[digit] += 1
-
-      if d > 0
-        res[d] += 1
-      end
+      res = res.zip(ds).map {|(x, y)| x+y}
+      res[digit] += p
     end
 
-    if d > 0
-      (1..d).to_enum.each do
-        (0..9).to_enum.each do |digit|
-          res[digit] += 1
-        end
-      end
 
-      (1..(d-1)).to_enum.each do |digit|
-        res[digit] += 1*10 - 1
-      end
-    end
-
-    x = d
+    ds = ds.map {|c| c+1}
+    p = d
   end
 
   res
