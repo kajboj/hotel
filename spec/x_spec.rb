@@ -5,7 +5,47 @@ describe do
   end
 
   specify do
+    expect(better(3)).to eq([0, 1, 1, 1, 0, 0, 0, 0, 0, 0])
+  end
+
+  specify do
     expect(naive(13)).to eq([1, 6, 2, 2, 1, 1, 1, 1, 1, 1])
+  end
+
+  specify do
+    expect(better(13)).to eq([1, 6, 2, 2, 1, 1, 1, 1, 1, 1])
+  end
+
+  specify do
+    expect(naive(27)).to eq([2, 13, 11, 3, 3, 3, 3, 3, 2, 2])
+  end
+
+  specify do
+    expect(better(27)).to eq([2, 13, 11, 3, 3, 3, 3, 3, 2, 2])
+  end
+
+  specify do
+    expect(naive(79)).to eq([7, 18, 18, 18, 18, 18, 18, 18, 8, 8])
+  end
+
+  specify do
+    expect(better(79)).to eq([7, 18, 18, 18, 18, 18, 18, 18, 8, 8])
+  end
+
+  specify do
+    expect(naive(100)).to eq([11, 21, 20, 20, 20, 20, 20, 20, 20, 20])
+  end
+
+  specify do
+    expect(better(100)).to eq([11, 21, 20, 20, 20, 20, 20, 20, 20, 20])
+  end
+
+  specify do
+    expect(naive(101)).to eq([12, 23, 20, 20, 20, 20, 20, 20, 20, 20])
+  end
+
+  specify do
+    expect(better(101)).to eq([11, 22, 20, 20, 20, 20, 20, 20, 20, 20])
   end
 
   specify do
