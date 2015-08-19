@@ -42,7 +42,7 @@ describe '#fast' do
   end
 
   specify do
-    fast(10*18)
+    fast(10**19-1)
   end
 end
 
