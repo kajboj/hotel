@@ -1,12 +1,8 @@
 require './x'
 
-describe do
+describe '#fast' do
   specify do
     expect(naive(3)).to eq([0, 1, 1, 1, 0, 0, 0, 0, 0, 0])
-  end
-
-  specify do
-    expect(better(3)).to eq([0, 1, 1, 1, 0, 0, 0, 0, 0, 0])
   end
 
   specify do
@@ -14,48 +10,39 @@ describe do
   end
 
   specify do
-    expect(better(13)).to eq([1, 6, 2, 2, 1, 1, 1, 1, 1, 1])
+    expect(fast(3)).to eq(naive(3))
   end
 
   specify do
-    expect(naive(27)).to eq([2, 13, 11, 3, 3, 3, 3, 3, 2, 2])
+    expect(fast(13)).to eq(naive(13))
   end
 
   specify do
-    expect(better(27)).to eq([2, 13, 11, 3, 3, 3, 3, 3, 2, 2])
+    expect(fast(27)).to eq(naive(27))
   end
 
   specify do
-    expect(naive(79)).to eq([7, 18, 18, 18, 18, 18, 18, 18, 8, 8])
+    expect(fast(79)).to eq(naive(79))
   end
 
   specify do
-    expect(better(79)).to eq([7, 18, 18, 18, 18, 18, 18, 18, 8, 8])
+    expect(fast(100)).to eq(naive(100))
   end
 
   specify do
-    expect(naive(100)).to eq([11, 21, 20, 20, 20, 20, 20, 20, 20, 20])
+    expect(fast(101)).to eq(naive(101))
   end
 
   specify do
-    expect(better(100)).to eq([11, 21, 20, 20, 20, 20, 20, 20, 20, 20])
+    expect(fast(763)).to eq(naive(763))
   end
 
   specify do
-    expect(naive(101)).to eq([12, 23, 20, 20, 20, 20, 20, 20, 20, 20])
-  end
-
-  specify do
-    expect(better(101)).to eq([11, 22, 20, 20, 20, 20, 20, 20, 20, 20])
-  end
-
-  specify do
-    expect(naive(763)).to eq(
-      [146, 257, 257, 257, 256, 256, 250, 210, 146, 146])
+    expect(fast(12345)).to eq(naive(12345))
   end
 end
 
-describe 'up_to' do
+describe '#up_to' do
   specify do
     expect(up_to(0)).to eq(naive(0))
   end
@@ -74,5 +61,23 @@ describe 'up_to' do
 
   specify do
     expect(up_to(4)).to eq(naive(9999))
+  end
+end
+
+describe '#d' do
+  specify do
+    expect(d(3, 0)).to eq(naive(3))
+  end
+
+  specify do
+    expect(d(3, 1)).to eq(naive(30))
+  end
+
+  specify do
+    expect(d(7, 2)).to eq(naive(700))
+  end
+
+  specify do
+    expect(d(5, 3)).to eq(naive(5000))
   end
 end

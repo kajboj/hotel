@@ -8,54 +8,85 @@ def naive(max)
   r
 end
 
-def better(max)
-  res = [0]*10
-  ds = [0]*10
-  p = 0
-
-  max.to_s.split('').map(&:to_i).reverse.each do |d|
-    (1..d).to_enum.each do |digit|
-      res[digit] += 1
-      res = res.zip(ds).map {|(x, y)| x+y}
-      res[digit] += p
-    end
-
-
-    ds = ds.map {|c| c+1}
-    p = d
-  end
-
-  res
-end
-
-def add(v, u)
-  v.zip(u).map {|(x, y)| x+y}
+def add(*vs)
+  vs.first.zip(*vs[1..-1]).map { |a| a.inject(&:+) }
 end
 
 def add_s(v, s)
   v.map {|x| x+s}
 end
 
-def mul_s(v, s)
+def one(digit)
+  ones(digit..digit)
+end
+
+def ones(range)
+  r = [0]*10
+  range.to_enum.each do |digit|
+    r[digit] = 1
+  end
+  r
+end
+
+def mul(v, s)
   v.map {|x| x*s}
 end
 
 def up_to(power)
   if power == 0
     [0] * 10
-  elsif power == 1
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   else
     u = up_to(power-1)
-    c = 10**(power-1)-1
+    c = 10**(power-1)
     add(
-      add(
-        u,
-        add(
-          mul_s(u, 9),
-          [c] + [1]*9
-        )),
-      [0] + [c]*9
+      u,            # bottom
+      mul(u, 9),    # blocks above bottom
+      [c-1] + [c]*9 # padding zeros and leading digits
     )
+  end
+end
+
+def d(digit, power)
+  if power == 0
+    [0] + [1]*digit + [0]*(9-digit)
+  else
+    res = [0]*10
+
+    c = 10**power
+    u = up_to(power)
+    total = u.inject(&:+)
+
+    res = add(
+      mul(u, digit),            # all the blocks
+      mul(ones(1..digit-1), c), # first digits
+      one(digit),
+      mul(one(0), (power*c - total)*(digit-1) + power)
+    )
+
+    res
+  end
+end
+
+def fast(max)
+  if max == 0
+    [0]*10
+  else
+    res = [0]*10
+
+    s = max.to_s
+    power = s.size-1
+    head = s[0].to_i
+    tail = s[1..-1].to_i
+    remainder = fast(tail)
+    total = remainder.inject(&:+)
+
+    res = add(
+      d(head, power),
+      remainder,
+      mul(one(head), tail),
+      mul(one(0), power*tail - total)
+    )
+
+    res
   end
 end
