@@ -1,4 +1,4 @@
-require './x'
+require './hotel'
 
 describe '#fast' do
   specify do

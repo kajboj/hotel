@@ -13,10 +13,6 @@ def add(*vs)
   vs.first.zip(*vs[1..-1]).map { |a| a.inject(&:+) }
 end
 
-def add_s(v, s)
-  add(v, [s]*10)
-end
-
 def one(digit)
   ones(digit..digit)
 end
