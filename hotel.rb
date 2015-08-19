@@ -68,10 +68,10 @@ def fast(max)
     remainder_sum = remainder.inject(&:+)
 
     res = add(
-      main_chunk(head, power),
+      main_chunk(head, power), # count up to most significant digit
       remainder,
-      mul(one(head), tail),
-      mul(one(0), power*tail - remainder_sum)
+      mul(one(head), tail), # count most significant digit prefixing remainder
+      mul(one(0), power*tail - remainder_sum) # pad remainder with zeros
     )
 
     res
