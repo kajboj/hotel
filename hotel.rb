@@ -43,7 +43,7 @@ def up_to(power)
   end
 end
 
-def d(digit, power)
+def main_chunk(digit, power)
   c = 10**power
   u = up_to(power)
   total = u.inject(&:+)
@@ -68,7 +68,7 @@ def fast(max)
     remainder_sum = remainder.inject(&:+)
 
     res = add(
-      d(head, power),
+      main_chunk(head, power),
       remainder,
       mul(one(head), tail),
       mul(one(0), power*tail - remainder_sum)

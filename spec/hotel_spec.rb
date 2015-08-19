@@ -62,26 +62,26 @@ describe '#up_to' do
   specify do
     expect(up_to(3)).to eq(naive(999))
   end
-
+  
   specify do
     expect(up_to(4)).to eq(naive(9999))
   end
 end
 
-describe '#d' do
+describe '#main_chunk' do
   specify do
-    expect(d(3, 0)).to eq(naive(3))
+    expect(main_chunk(3, 0)).to eq(naive(3))
   end
 
   specify do
-    expect(d(3, 1)).to eq(naive(30))
+    expect(main_chunk(3, 1)).to eq(naive(30))
   end
 
   specify do
-    expect(d(7, 2)).to eq(naive(700))
+    expect(main_chunk(7, 2)).to eq(naive(700))
   end
 
   specify do
-    expect(d(5, 3)).to eq(naive(5000))
+    expect(main_chunk(5, 3)).to eq(naive(5000))
   end
 end
