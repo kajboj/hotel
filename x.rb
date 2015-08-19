@@ -8,12 +8,13 @@ def naive(max)
   r
 end
 
+# add n vectors
 def add(*vs)
   vs.first.zip(*vs[1..-1]).map { |a| a.inject(&:+) }
 end
 
 def add_s(v, s)
-  v.map {|x| x+s}
+  add(v, [s]*10)
 end
 
 def one(digit)
@@ -36,55 +37,45 @@ def up_to(power)
   if power == 0
     [0] * 10
   else
-    u = up_to(power-1)
+    bottom = up_to(power-1)
     c = 10**(power-1)
     add(
-      u,            # bottom
-      mul(u, 9),    # blocks above bottom
-      [c-1] + [c]*9 # padding zeros and leading digits
+      bottom,
+      mul(bottom, 9), # blocks above bottom
+      [c-1] + [c]*9   # padding zeros and leading digits
     )
   end
 end
 
 def d(digit, power)
-  if power == 0
-    [0] + [1]*digit + [0]*(9-digit)
-  else
-    res = [0]*10
+  c = 10**power
+  u = up_to(power)
+  total = u.inject(&:+)
 
-    c = 10**power
-    u = up_to(power)
-    total = u.inject(&:+)
-
-    res = add(
-      mul(u, digit),            # all the blocks
-      mul(ones(1..digit-1), c), # first digits
-      one(digit),
-      mul(one(0), (power*c - total)*(digit-1) + power)
-    )
-
-    res
-  end
+  add(
+    mul(u, digit),            # all the blocks
+    mul(ones(1..digit-1), c), # leading digits
+    one(digit),
+    mul(one(0), (power*c - total)*(digit-1) + power) # padding blocks with zeros
+  )
 end
 
 def fast(max)
   if max == 0
     [0]*10
   else
-    res = [0]*10
-
     s = max.to_s
     power = s.size-1
     head = s[0].to_i
     tail = s[1..-1].to_i
     remainder = fast(tail)
-    total = remainder.inject(&:+)
+    remainder_sum = remainder.inject(&:+)
 
     res = add(
       d(head, power),
       remainder,
       mul(one(head), tail),
-      mul(one(0), power*tail - total)
+      mul(one(0), power*tail - remainder_sum)
     )
 
     res

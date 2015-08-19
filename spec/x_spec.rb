@@ -38,7 +38,11 @@ describe '#fast' do
   end
 
   specify do
-    expect(fast(12345)).to eq(naive(12345))
+    expect(fast(9999)).to eq(naive(9999))
+  end
+
+  specify do
+    fast(10*18)
   end
 end
 
