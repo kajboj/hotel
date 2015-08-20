@@ -38,16 +38,15 @@ def fast(max)
     digit = x % 10
     upper = x / 10
 
+    zero_mul = digit == 0 ? upper-1 : upper
+
     res = add(
       res,
       mul(ones(1..(digit-1)), c),
       mul(one(digit), carry+1),
-      mul(ones(0..10), upper*c)
+      mul(ones(1..10), upper*c),
+      mul(one(0), zero_mul*c)
     )
-
-    if digit == 0
-      res = add(res, mul(one(0), -c))
-    end
 
     carry += digit*c
     c = c*10
