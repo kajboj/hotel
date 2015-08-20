@@ -8,9 +8,12 @@ def naive(max)
   r
 end
 
-# add n vectors
 def add(*vs)
   vs.first.zip(*vs[1..-1]).map { |a| a.inject(&:+) }
+end
+
+def mul(v, s)
+  v.map {|x| x*s}
 end
 
 def one(digit)
@@ -25,55 +28,32 @@ def ones(range)
   r
 end
 
-def mul(v, s)
-  v.map {|x| x*s}
-end
-
-def up_to(power)
-  if power == 0
-    [0] * 10
-  else
-    bottom = up_to(power-1)
-    c = 10**(power-1)
-    add(
-      bottom,
-      mul(bottom, 9), # blocks above bottom
-      [c-1] + [c]*9   # padding zeros and leading digits
-    )
-  end
-end
-
-def main_chunk(digit, power)
-  c = 10**power
-  u = up_to(power)
-  total = u.inject(&:+)
-
-  add(
-    mul(u, digit),            # all the blocks
-    mul(ones(1..digit-1), c), # leading digits
-    one(digit),
-    mul(one(0), (power*c - total)*(digit-1) + power) # padding blocks with zeros
-  )
-end
-
 def fast(max)
-  if max == 0
-    [0]*10
-  else
-    s = max.to_s
-    power = s.size-1
-    head = s[0].to_i
-    tail = s[1..-1].to_i
-    remainder = fast(tail)
-    remainder_sum = remainder.inject(&:+)
+  x = max
+  c = 1
+  carry = 0
+  res = [0]*10
+
+  while x > 0 do
+    digit = x % 10
+    upper = x / 10
 
     res = add(
-      main_chunk(head, power), # count up to most significant digit
-      remainder,
-      mul(one(head), tail), # count most significant digit prefixing remainder
-      mul(one(0), power*tail - remainder_sum) # pad remainder with zeros
+      res,
+      mul(ones(1..(digit-1)), c),
+      mul(one(digit), carry+1),
+      mul(ones(0..10), upper*c)
     )
 
-    res
+    if digit == 0
+      res = add(res, mul(one(0), -c))
+    end
+
+    carry += digit*c
+    c = c*10
+    x = upper
   end
+
+  res
 end
+
